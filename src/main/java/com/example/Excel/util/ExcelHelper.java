@@ -47,7 +47,7 @@ public class ExcelHelper {
     }
 
     private static LocalDateTime getCellValueAsDateTime(Cell cell) {
-        if (cell == null) return LocalDateTime.now(); // Default to now if empty
+        if (cell == null) return LocalDateTime.now();
         if (cell.getCellType() == CellType.NUMERIC && DateUtil.isCellDateFormatted(cell)) {
             return cell.getLocalDateTimeCellValue();
         } else {

@@ -26,8 +26,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeMapper employeeMapper;
 
-
-    @PostMapping("/upload")
+@PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File is empty!");
@@ -35,7 +34,6 @@ public class EmployeeController {
         if (!ExcelHelper.hasExcelFormat(file)) {
             return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("Invalid Excel file format!");
         }
-
         try {
             String message = excelService.saveEmployeesFromExcel(file);
             return ResponseEntity.status(HttpStatus.OK).body(message);
@@ -43,7 +41,11 @@ public class EmployeeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file: " + e.getMessage());
         }
     }
-
+    @PostMapping("/updateEmail")
+    public ResponseEntity<String> updateEmployeeEmail(@RequestParam String oldEmail, @RequestParam String newEmail) {
+        employeeRepository.updateEmail(oldEmail, newEmail);
+        return ResponseEntity.ok("Email updated successfully!");
+    }
 
 
 }
